@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bs58": "^5.0.0",
     "near-api-js": "^2.1.4",
     "near-seed-phrase": "^0.2.0",
     "next": "13.5.3",
