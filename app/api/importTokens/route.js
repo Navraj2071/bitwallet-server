@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server'
 const nearAPI = require('near-api-js')
 const bs58 = require('bs58')
 
@@ -57,5 +56,9 @@ export async function POST(request) {
     data.contractId,
     data.tokenId
   )
-  return NextResponse.json({ tokens: tokens })
+  console.log('====================================')
+  console.log(tokens)
+  console.log('====================================')
+  // return NextResponse.json({ tokens: tokens })
+  return new Response(JSON.stringify({ tokens: tokens }))
 }
