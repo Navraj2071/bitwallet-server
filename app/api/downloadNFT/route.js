@@ -1,15 +1,14 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 // const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest
-import RNFetchBlob from 'rn-fetch-blob-v1'
 
 export async function POST(request) {
   try {
-    let date = new Date()
-    let image_URL = request.url
-    let ext = getExtention(image_URL)
-    ext = '.' + ext[-1]
+    let date = new Date();
+    let image_URL = request.url;
+    let ext = getExtention(image_URL);
+    ext = "." + ext[-1];
     // const { config, fs } = RNFetchBlob
-    let PictureDir = fs.dirs.PictureDir
+    let PictureDir = fs.dirs.PictureDir;
     let options = {
       fileCache: true,
       addAndroidDownloads: {
@@ -18,48 +17,50 @@ export async function POST(request) {
         notification: true,
         path:
           PictureDir +
-          '/image_' +
+          "/image_" +
           Math.floor(date.getTime() + date.getSeconds() / 1) +
           ext,
-        description: 'Image',
+        description: "Image",
       },
-    }
+    };
 
-    const res = postMedia(options.addAndroidDownloads.path, image_URL)
+    const res = postMedia(options.addAndroidDownloads.path, image_URL);
     // config(options)
     //   .fetch('GET', image_URL)
     //   .then((res) => {
     //     console.log(res)
-    return NextResponse.json({ downloadNFTResponse: JSON.stringify(res) })
+    return NextResponse.json({ downloadNFTResponse: JSON.stringify(res) });
     //     // console.log('res -> ', JSON.stringify(res))
     //     // alert('Image Downloaded Successfully.')
     //   })
   } catch (error) {
-    return NextResponse.json({ downloadNFTResponse: JSON.stringify(error) })
+    return NextResponse.json({ downloadNFTResponse: JSON.stringify(error) });
   }
 }
 
 async function postMedia(path, uri) {
   let type = uri.substring(uri.lastIndexOf(".") + 1);
-  const headers = await this.getHeaders('multipart/form-data')
-  const form = new FormData()
-  form.append('file', { uri, name: 'media', type: `image/${type}` })
+  const headers = await this.getHeaders("multipart/form-data");
+  const form = new FormData();
+  form.append("file", { uri, name: "media", type: `image/${type}` });
   const options = {
-    method: 'POST',
+    method: "POST",
     headers,
-    body: form
-  }
-  return this.fetch(path, options).then(res => {
-    console.log("FETCH MEDIA", res)
-    this.processResponse(path, options, res)
-  }).catch(err => {
-    console.log("FETCH ERROR", err)
-  })
+    body: form,
+  };
+  return this.fetch(path, options)
+    .then((res) => {
+      console.log("FETCH MEDIA", res);
+      this.processResponse(path, options, res);
+    })
+    .catch((err) => {
+      console.log("FETCH ERROR", err);
+    });
 }
 
 const getExtention = (filename) => {
-  return /[.]/.exec(filename) ? /[^.]+$/.exec(filename) : undefined
-}
+  return /[.]/.exec(filename) ? /[^.]+$/.exec(filename) : undefined;
+};
 // try {
 //   const url = request.url
 //   let fileName = url.split('/')[url.split('/').length - 1]
